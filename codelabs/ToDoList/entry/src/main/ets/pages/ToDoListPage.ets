@@ -1,20 +1,19 @@
+import ToDoItem from '../view/ToDoItem';
+
 @Entry
 @Component
-struct Index {
-  @State message: string = 'Hello World';
+struct ToDoListPage {
+  private totalTasks: Array<string> = [];
+
+  aboutToAppear(): void {
+    // this.totalTasks =
+  }
 
   build() {
-    RelativeContainer() {
-      Text(this.message)
-        .id('HelloWorld')
-        .fontSize(50)
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })
+    Column() {
+      ForEach(this.totalTasks, (item: string) => {
+        ToDoItem({ content: item })
+      }, (item: string) => JSON.stringify(item))
     }
-    .height('100%')
-    .width('100%')
   }
 }
