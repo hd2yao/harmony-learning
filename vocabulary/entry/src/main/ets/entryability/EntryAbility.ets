@@ -1,6 +1,7 @@
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import { data } from '@kit.TelephonyKit';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -13,8 +14,39 @@ export default class EntryAbility extends UIAbility {
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
     // Main window is created, set main page for this ability
+    // 设置 WindowStage 的事件订阅（获焦/失焦、切到前台/切到后台、前台可交互/前台不可交互）
+    try {
+      windowStage.on('windowStageEvent', (data) => {
+        let stageEventType: window.WindowStageEventType = data;
+        switch (stageEventType) {
+          case window.WindowStageEventType.SHOWN: // 切到前台
+            hilog.info(0x0000, 'testTag', `windowStage foreground.`);
+            break;
+          case window.WindowStageEventType.ACTIVE: // 获焦状态
+            hilog.info(0x0000, 'testTag', `windowStage active.`);
+            break;
+          case window.WindowStageEventType.INACTIVE: // 失焦状态
+            hilog.info(0x0000, 'testTag', `windowStage inactive.`);
+            break;
+          case window.WindowStageEventType.HIDDEN: // 切到后台
+            hilog.info(0x0000, 'testTag', `windowStage background.`);
+            break;
+          case window.WindowStageEventType.RESUMED: // 前台可交互状态
+            hilog.info(0x0000, 'testTag', `windowStage resumed.`);
+            break;
+          case window.WindowStageEventType.PAUSED: // 前台不可交互状态
+            hilog.info(0x0000, 'testTag', `windowStage paused.`);
+            break;
+          default:
+            break;
+        }
+      })
+    } catch (exception) {
+      hilog.error(0x0000, 'testTag', `Failed to enable the listener for window stage event changes. Cause: ${JSON.stringify(exception)}`);
+    }
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
+    // 设置 UI 加载
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
