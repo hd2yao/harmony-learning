@@ -3,11 +3,25 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import { data } from '@kit.TelephonyKit';
 
+const DOMAIN_NUMBER: number = 0xFF00;
+const TAG: string = '[EventAbility]';
+
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
-    // 获取 UIAbility 实例的上下文
-    let context = this.context;
-    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+    // 获取 eventHub，在 UIAbility 组件实例内通信
+    let eventhub = this.context.eventHub;
+    // 执行订阅操作
+    // eventHub.on() 有如下两种调用方式
+    eventhub.on('event1', this.eventFuc);
+    eventhub.on('event1', (data: string) => {
+      // 触发时间，完成相应的业务操作
+    })
+    hilog.info(DOMAIN_NUMBER, TAG, '%{public}s', 'Ability onCreate');
+  }
+
+  eventFuc(argOne: Context, argTwo: Context): void {
+    hilog.info(DOMAIN_NUMBER, TAG, '1. ' + `${argOne}, ${argTwo}`);
+    return;
   }
 
   onDestroy(): void {

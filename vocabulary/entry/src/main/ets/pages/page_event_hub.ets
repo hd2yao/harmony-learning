@@ -11,6 +11,15 @@ import { common, Want } from '@kit.AbilityKit'
 struct Page_EventHub {
   private context = getContext(this) as common.UIAbilityContext;
 
+  eventHubFunc(): void {
+    // 不带参数触发自定义 “event1” 事件
+    this.context.eventHub.emit('event1');
+    // 带1个参数触发自定义“event1”事件
+    this.context.eventHub.emit('event1', 1);
+    // 带2个参数触发自定义“event1”事件
+    this.context.eventHub.emit('event1', 2, 'test');
+  }
+
   startAbilityTest(): void {
     let want: Want = {
       // Want 参数信息
