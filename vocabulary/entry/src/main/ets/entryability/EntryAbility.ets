@@ -5,6 +5,8 @@ import { data } from '@kit.TelephonyKit';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
+    // 获取 UIAbility 实例的上下文
+    let context = this.context;
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
   }
 
