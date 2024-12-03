@@ -17,9 +17,9 @@ class BannerClass {
    */
   url: string = '';
 
-  constructor(id: string, imageSre: ResourceStr, url: string) {
+  constructor(id: string, imageSrc: ResourceStr, url: string) {
     this.id = id;
-    this.imageSrc = this.imageSrc;
+    this.imageSrc = imageSrc;
     this.url = url;
   }
 }
@@ -68,10 +68,21 @@ struct Banner {
   ];
 
   build() {
-    Image($r('app.media.banner_pic1'))
-      .objectFit(ImageFit.Contain) // 设置图片的填充效果为 Contain 模式，即保持宽高比进行缩小或放大
-      .width('100%')
-      .padding({ top: 11, left: 16, right: 16})
-      .borderRadius(16) // 设置图片四角的圆角值
+    Swiper() {
+      ForEach(this.bannerList, (item: BannerClass, index: number) => {
+        Image(item.imageSrc)
+          .objectFit(ImageFit.Contain) // 设置图片的填充效果为 Contain 模式，即保持宽高比进行缩小或放大
+          .width('100%')
+          .padding({ top: 11, left: 16, right: 16 })
+          .borderRadius(16) // 设置图片四角的圆角值
+      }, (item: BannerClass, index: number) => item.id)
+    }
+    .autoPlay(true) // 控制是否自动轮播子组件
+    .loop(true) // 控制是否循环播放
+    .indicator(
+      new DotIndicator()
+        .color('#1a000000')
+        .selectedColor('#0A59F7')
+    )
   }
 }
