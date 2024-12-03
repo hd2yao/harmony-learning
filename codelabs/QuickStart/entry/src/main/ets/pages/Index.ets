@@ -48,6 +48,10 @@ struct Index {
   }
 }
 
+/*
+  运营推荐位
+ */
+
 @Preview
 // 用 @Preview 装饰器装饰，以便单独预览组件
 @Component
@@ -84,5 +88,116 @@ struct Banner {
         .color('#1a000000')
         .selectedColor('#0A59F7')
     )
+  }
+}
+
+/*
+  赋能套件
+  由文章标题、文章简介、文章配图组成
+  分别建立三个组件将它们组合起来构建完整视图
+ */
+
+@Preview
+@Component
+struct EnablementItem {
+  // 定义标题和简介
+  private title: string = 'HarmonyOS第一课';
+  private brief: string = '基于真实的开发场景，提供向导式学习，多维度融合课程等内容，给开发者提供全新的学习体验。';
+
+  build() {
+    Column() {
+      Image($r('app.media.enablement_pic1'))
+        .width('100%')
+        .objectFit(ImageFit.Cover)
+        .height(96)
+        .borderRadius({
+          topLeft: 16,
+          topRight: 16
+        })
+
+      Text(this.title)
+        .height(19)
+        .width('100%')
+        .fontSize(14)
+        .textAlign(TextAlign.Start)
+        .textOverflow({ overflow: TextOverflow.Ellipsis }) // 设置文本超长时的显示方式，Ellipsis：超长时使用省略号
+        .maxLines(1) // 设置文本的最大行数
+        .fontWeight(400)
+        .padding({ left: 12, right: 12 })
+        .margin({ top: 8 })
+
+      Text(this.brief)
+        .height(32)
+        .width('100%')
+        .fontSize(12)
+        .textAlign(TextAlign.Start)
+        .textOverflow({ overflow: TextOverflow.Ellipsis })
+        .maxLines(2)
+        .fontWeight(400)
+        .fontColor('rgba(0, 0, 0, 0.6)')
+        .padding({ left: 12, right: 12 })
+        .margin({ top: 2 })
+    }
+    .width(160)
+    .height(169)
+    .borderRadius(16)
+    .backgroundColor(Color.White)
+  }
+}
+
+/*
+  入门教程
+  由文章标题、文章简介、文章配图组成
+  但与赋能套件布局有所不同
+ */
+
+@Preview
+@Component
+struct TutorialItem {
+  private title: string = 'Step1 快速入门介绍';
+  private brief: string = '本篇教程实现了快速入门——一个用于了解和学习HarmonyOS的应用程序 。';
+
+
+  build() {
+    Row() {
+      Column(){
+        Text(this.title)
+          .height(19)
+          .width('100%')
+          .fontSize(14)
+          .textAlign(TextAlign.Start)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+          .maxLines(1)
+          .fontWeight(400)
+          .margin({ top: 4 })
+
+        Text(this.brief)
+          .height(32)
+          .width('100%')
+          .fontSize(12)
+          .textAlign(TextAlign.Start)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+          .maxLines(2)
+          .fontWeight(400)
+          .fontColor('rgba(0, 0, 0, 0.6)')
+          .margin({ top: 5 })
+      }
+      .height('100%')
+      .layoutWeight(1)
+      .alignItems(HorizontalAlign.Start)
+      .margin({ right: 12 })
+
+      Image($r('app.media.enablement_pic1'))
+        .height(64)
+        .width(108)
+        .objectFit(ImageFit.Cover)
+        .borderRadius(16)
+    }
+    .width('100%')
+    .height(88)
+    .borderRadius(16)
+    .backgroundColor(Color.White)
+    .padding(12)
+    .alignItems(VerticalAlign.Top)
   }
 }
