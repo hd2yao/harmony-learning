@@ -177,17 +177,15 @@ struct EnablementItem {
   但与赋能套件布局有所不同
  */
 
-@Preview
+// @Preview
 @Component
 struct TutorialItem {
-  private title: string = 'Step1 快速入门介绍';
-  private brief: string = '本篇教程实现了快速入门——一个用于了解和学习HarmonyOS的应用程序 。';
-
+  @Prop tutorialItem: ArticleClass;
 
   build() {
     Row() {
       Column(){
-        Text(this.title)
+        Text(this.tutorialItem.title)
           .height(19)
           .width('100%')
           .fontSize(14)
@@ -197,7 +195,7 @@ struct TutorialItem {
           .fontWeight(400)
           .margin({ top: 4 })
 
-        Text(this.brief)
+        Text(this.tutorialItem.brief)
           .height(32)
           .width('100%')
           .fontSize(12)
@@ -213,7 +211,7 @@ struct TutorialItem {
       .alignItems(HorizontalAlign.Start)
       .margin({ right: 12 })
 
-      Image($r('app.media.enablement_pic1'))
+      Image(this.tutorialItem.imageSrc)
         .height(64)
         .width(108)
         .objectFit(ImageFit.Cover)
@@ -324,5 +322,27 @@ struct TutorialView {
   ];
 
   build() {
+    Column() {
+      Text('入门教程')
+        .fontColor('#182431')
+        .fontSize(16)
+        .fontWeight(500)
+        .fontFamily('HarmonyHeiTi-medium')
+        .textAlign(TextAlign.Start)
+        .padding({ left: 16 })
+        .margin({ bottom: 8.5 })
+
+      List({ space: 12 }) {
+        ForEach(this.tutorialList, (item: ArticleClass) => {
+          ListItem() {
+            TutorialItem({ tutorialItem: item })
+          }
+        }, (item: ArticleClass, index: number) => item.id)
+      }
+      .scrollBar(BarState.Off)
+      .padding({ left: 16, right: 16 })
+    }
+    .margin({ top: 18 })
+    .alignItems(HorizontalAlign.Start)
   }
 }
