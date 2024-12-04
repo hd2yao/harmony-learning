@@ -1,6 +1,8 @@
 /*
   Banner 运营位由多张图片资源构成，因此创建 BannerClass 类用于表示每张图片资源的数据结构
  */
+import { it } from '@ohos/hypium';
+
 class BannerClass {
   /*
     图片资源唯一标识
@@ -122,16 +124,15 @@ struct Banner {
   分别建立三个组件将它们组合起来构建完整视图
  */
 
-@Preview
+// @Preview
+// 加入 @Prop 后，@Preview 会失效
 @Component
 struct EnablementItem {
-  // 定义标题和简介
-  private title: string = 'HarmonyOS第一课';
-  private brief: string = '基于真实的开发场景，提供向导式学习，多维度融合课程等内容，给开发者提供全新的学习体验。';
+  @Prop enablementItem: ArticleClass
 
   build() {
     Column() {
-      Image($r('app.media.enablement_pic1'))
+      Image(this.enablementItem.imageSrc)
         .width('100%')
         .objectFit(ImageFit.Cover)
         .height(96)
@@ -140,7 +141,7 @@ struct EnablementItem {
           topRight: 16
         })
 
-      Text(this.title)
+      Text(this.enablementItem.title)
         .height(19)
         .width('100%')
         .fontSize(14)
@@ -151,7 +152,7 @@ struct EnablementItem {
         .padding({ left: 12, right: 12 })
         .margin({ top: 8 })
 
-      Text(this.brief)
+      Text(this.enablementItem.brief)
         .height(32)
         .width('100%')
         .fontSize(12)
@@ -256,6 +257,32 @@ struct EnablementView {
   ];
 
   build() {
+    Column() {
+      Text('赋能套件')
+        .fontColor('#182431')
+        .fontSize(16)
+        .fontWeight(500)
+        .fontFamily('HarmonyHeiTi-medium')
+        .textAlign(TextAlign.Start)
+        .padding({ left: 16 })
+        .margin({ bottom: 8.5 })
+
+      Grid() {
+        ForEach(this.enablementList, (item: ArticleClass) => {
+          GridItem() {
+            EnablementItem({ enablementItem: item })
+          }
+        }, (item: ArticleClass, index: number) => item.id)
+      }
+      .rowsTemplate('1fr')
+      .columnsGap(8)
+      .scrollBar(BarState.Off)
+      .height(169)
+      .padding({ top: 2, left: 16, right: 16 })
+
+    }
+    .margin({ top: 18 })
+    .alignItems(HorizontalAlign.Start)
   }
 }
 
