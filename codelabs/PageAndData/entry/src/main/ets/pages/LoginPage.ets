@@ -15,6 +15,13 @@ function lineStyle() {
   .backgroundColor('#33182431')
 }
 
+@Extend(Text)
+function blueTextStyle() {
+  .fontColor('#007DFF')
+  .fontSize('14fp')
+  .fontWeight(FontWeight.Medium)
+}
+
 @Entry
 @Component
 struct LoginPage {
@@ -48,12 +55,14 @@ struct LoginPage {
         .lineStyle()
 
       Row() {
-        Text()
-
-        Text()
-
+        Text('短信验证码登录')
+          .blueTextStyle()
+        Text('忘记密码')
+          .blueTextStyle()
       }
+      .width('100%')
       .justifyContent(FlexAlign.SpaceBetween)
+      .margin({ top: 8 })
 
       Button('')
       Text()
