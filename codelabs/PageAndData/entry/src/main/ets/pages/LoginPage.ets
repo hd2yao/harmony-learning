@@ -25,6 +25,16 @@ function blueTextStyle() {
 @Entry
 @Component
 struct LoginPage {
+  @Builder
+  imageButton(src: Resource) {
+    Button({ type: ButtonType.Circle, stateEffect: true }) {
+      Image(src)
+    }
+    .height('48vp')
+    .width('48vp')
+    .backgroundColor('#F1F3F5')
+  }
+
   build() {
     Column() {
       Image($r('app.media.logo'))
@@ -64,16 +74,37 @@ struct LoginPage {
       .justifyContent(FlexAlign.SpaceBetween)
       .margin({ top: 8 })
 
-      Button('')
-      Text()
+      Button('登录')
+        .width('90%')
+        .height('40vp')
+        .fontSize('16fp')
+        .fontWeight(FontWeight.Medium)
+        .backgroundColor('#007DFF')
+        .margin({ top: '48vp', bottom: '12vp' })
+      Text('注册账号')
+        .fontColor('#007DFF')
+        .fontSize('16fp')
+        .fontWeight(FontWeight.Medium)
 
-      Row() {
-
+      Text('其他登录方式')
+        .fontColor('#838D97')
+        .fontSize('12fp')
+        .fontWeight(FontWeight.Medium)
+        .margin({ top: '50vp', bottom: '12vp' })
+      Row({ space: 44 }) {
+        this.imageButton($r('app.media.login_method1'))
+        this.imageButton($r('app.media.login_method2'))
+        this.imageButton($r('app.media.login_method3'))
       }
-      .justifyContent(FlexAlign.SpaceAround)
+      .margin({ bottom: 16 })
     }
     .width('100%')
     .height('100%')
     .backgroundColor('#F1F3F5')
+    .padding({
+      left: '12vp',
+      right: '12vp',
+      bottom: '24vp'
+    })
   }
 }
