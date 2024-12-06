@@ -4,6 +4,16 @@ import ItemData from "./ItemData";
  * 用于封装主页面所需要的所有数据源
  */
 export class MainViewModel {
+  getSwiperImages(): Array<Resource> {
+    let swiperImages: Resource[] = [
+      $r('app.media.fig1'),
+      $r('app.media.fig2'),
+      $r('app.media.fig3'),
+      $r('app.media.fig4')
+    ];
+    return swiperImages;
+  }
+
   //数据源修改为二维数组，可实现分组列表的页面效果
   getSettingListData(): Array<Array<ItemData>> {
     let settingListData: ItemData[][] = [

@@ -1,3 +1,5 @@
+import mainViewModel from '../viewmodel/MainViewModel';
+
 @Preview
 @Component
 export default struct Home {
@@ -11,6 +13,15 @@ export default struct Home {
         })
         .fontWeight(700)
         .fontSize('26fp')
+      
+      Swiper() {
+        ForEach(mainViewModel.getSwiperImages(), (image: Resource) => {
+          Image(image)
+            .width('100%')
+            .borderRadius('16vp')
+        }, (image: Resource) => JSON.stringify(image.id))
+      }
+      .autoPlay(true)
 
     }
     .width('100%')
