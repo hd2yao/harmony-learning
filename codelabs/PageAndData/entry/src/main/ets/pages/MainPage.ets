@@ -1,14 +1,18 @@
-import Home from '../view/Home';
-import Setting from '../view/Setting';
+import Home from "../view/Home";
+import Setting from "../view/Setting";
 
-@Entry
+@Builder
+export function MainPageBuilder() {
+  MainPage()
+}
+
 @Component
-struct MainPage {
+export struct MainPage {
   @State currentIndex: number = 0;
   private tabsController: TabsController = new TabsController();
 
   @Builder
-  TabBuilder(title: Resource, index: number, selectedImg: Resource) {
+  TabBuilder(title: ResourceStr, index: number, selectedImg: Resource) {
     Column() {
       SymbolGlyph(selectedImg)
         .fontSize('24fp')
@@ -33,7 +37,7 @@ struct MainPage {
   }
 
   build() {
-    Column() {
+    NavDestination() {
       Tabs({
         barPosition: BarPosition.End,
         controller: this.tabsController
@@ -41,13 +45,20 @@ struct MainPage {
         TabContent() {
           Home()
         }
-        .padding({ left: '12vp', right: '12vp' })
+        .padding({
+          left: '12vp',
+          right: '12vp'
+        })
         .backgroundColor('#F1F3F5')
         .tabBar(this.TabBuilder($r('app.string.Tab_Bar_One'), 0, $r('sys.symbol.house_fill')))
+
         TabContent() {
           Setting()
         }
-        .padding({ left: '12vp', right: '12vp' })
+        .padding({
+          left: '12vp',
+          right: '12vp'
+        })
         .backgroundColor('#F1F3F5')
         .tabBar(this.TabBuilder($r('app.string.Tab_Bar_Two'), 1, $r('sys.symbol.person_crop_circle_fill_1')))
       }
@@ -55,12 +66,13 @@ struct MainPage {
       .width('100%')
       .height('100%')
       .barHeight('80vp')
+      .barMode(BarMode.Fixed)
       .onChange((index: number) => {
         this.currentIndex = index;
       })
     }
     .height('100%')
-    .width('100%')
+    .hideTitleBar(true)
     .backgroundColor('#F1F3F5')
   }
 }
