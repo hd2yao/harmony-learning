@@ -90,10 +90,18 @@ export default struct Setting {
         bottom: '4vp'
       })
 
-      Button('退出登录')
-        .onClick(() => {
 
-      })
+      // 我们使用Blank组件，将分组列表与退出登录之间的空白填充
+      Blank()
+
+      Button('退出登录',  { type: ButtonType.Capsule })
+        .width('90%')
+        .height(40)
+        .fontSize(16)
+        .fontColor('#FA2A2D')
+        .fontWeight(FontWeight.Medium)
+        .backgroundColor('#E5E8EA')
+        .margin({ bottom: 16 })
     }
     .backgroundColor('#F1F3F5')
     .width('100%')
