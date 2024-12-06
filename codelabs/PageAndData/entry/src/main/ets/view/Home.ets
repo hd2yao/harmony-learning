@@ -1,3 +1,4 @@
+import ItemData from '../viewmodel/ItemData';
 import mainViewModel from '../viewmodel/MainViewModel';
 
 @Preview
@@ -22,6 +23,34 @@ export default struct Home {
         }, (image: Resource) => JSON.stringify(image.id))
       }
       .autoPlay(true)
+
+      Grid() {
+        ForEach(mainViewModel.getFirstGridData(), (item: ItemData, index: number) => {
+          GridItem() {
+            Column() {
+              Image(item.image)
+                .width('40vp')
+                .height('40vp')
+              Text(item.title)
+                .fontSize('12fp')
+                .margin({ top: '4vp' })
+            }
+          }
+        }, (item: ItemData, index: number) => JSON.stringify(item))
+      }
+      .backgroundImage($r('app.media.backgroundImage'))
+      .backgroundImageSize({
+        width: '100%',
+        height: '156vp'
+      })
+      .margin({ top: '12vp' })
+      .padding({
+        top: '12vp',
+        bottom: '12vp'
+      })
+      .height('156vp')
+      .backgroundColor(Color.White)
+      .borderRadius('16fp')
 
     }
     .width('100%')
