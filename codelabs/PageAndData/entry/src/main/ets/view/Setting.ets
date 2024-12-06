@@ -1,21 +1,24 @@
+import ItemData from "../viewmodel/ItemData"
+import mainViewModel from '../viewmodel/MainViewModel';
+
 @Preview
 @Component
 export default struct Setting {
   @Builder
-  settingCell(title: ResourceStr, img: Resource, others?: ResourceStr) {
+  settingCell(item: ItemData) {
     Row() {
       Row() {
-        Image(img)
+        Image(item.image)
           .height(22)
           .margin({
             left: 16,
             right: 12
           })
-        Text(title)
+        Text(item.title)
           .fontSize(16)
       }
 
-      if (others === undefined) {
+      if (item.others === undefined) {
         Image($r('app.media.right_grey'))
           .width('12vp')
           .height('24vp')
@@ -61,31 +64,20 @@ export default struct Setting {
       .width('100%')
 
       List() {
-        ListItem() {
-          this.settingCell('推送通知', $r('app.media.news'), '切换按钮');
-        }
-        .height(48)
-
-        ListItem() {
-          this.settingCell('字体大小调节', $r('app.media.data'));
-        }
-        .height(48)
-
-        ListItem() {
-          this.settingCell('清除缓存', $r('app.media.storage'));
-        }
-        .height('48vp')
-
-        ListItem() {
-          this.settingCell('隐私协议', $r('app.media.person_shield'));
-        }
-        .height('48vp')
-
-        ListItem() {
-          this.settingCell('关于', $r('app.media.about'));
-        }
-        .height('48vp')
+        ForEach(mainViewModel.getSettingListData(), (item: ItemData) => {
+          ListItem() {
+            this.settingCell(item);
+          }
+          .height(48)
+        }, (item: ItemData) => JSON.stringify(item))
       }
+      .scrollBar(BarState.Off)
+      .divider({
+        strokeWidth: '1vp',
+        color: '#0d000000',
+        startMargin: '42vp',
+        endMargin: '24vp'
+      })
       .backgroundColor('#ffffff')
       .borderRadius('16vp')
       .width('100%')
