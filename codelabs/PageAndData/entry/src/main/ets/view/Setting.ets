@@ -63,23 +63,27 @@ export default struct Setting {
       .alignItems(VerticalAlign.Center)
       .width('100%')
 
-      List() {
-        ForEach(mainViewModel.getSettingListData(), (item: ItemData) => {
-          ListItem() {
-            this.settingCell(item);
+      List({ space: 12 }) {
+        ForEach(mainViewModel.getSettingListData(), (item: ItemData[]) => {
+          ListItemGroup() {
+            ForEach(item, (cell: ItemData) => {
+              ListItem() {
+                this.settingCell(cell);
+              }
+              .height(48)
+            })
           }
-          .height(48)
+          .divider({
+            strokeWidth: '1vp',
+            color: '#0d000000',
+            startMargin: '42vp',
+            endMargin: '24vp'
+          })
+          .backgroundColor('#ffffff')
+          .borderRadius('16vp')
         }, (item: ItemData) => JSON.stringify(item))
       }
       .scrollBar(BarState.Off)
-      .divider({
-        strokeWidth: '1vp',
-        color: '#0d000000',
-        startMargin: '42vp',
-        endMargin: '24vp'
-      })
-      .backgroundColor('#ffffff')
-      .borderRadius('16vp')
       .width('100%')
       .padding({
         top: '4vp',
@@ -91,6 +95,7 @@ export default struct Setting {
 
       })
     }
+    .backgroundColor('#F1F3F5')
     .width('100%')
     .height('100%')
   }
