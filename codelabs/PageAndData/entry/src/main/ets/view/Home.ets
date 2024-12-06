@@ -38,6 +38,10 @@ export default struct Home {
           }
         }, (item: ItemData, index: number) => JSON.stringify(item))
       }
+      .columnsTemplate('1fr 1fr 1fr 1fr')
+      .rowsTemplate('1fr 1fr')
+      .columnsGap('8vp')
+      .rowsGap('12vp')
       .backgroundImage($r('app.media.backgroundImage'))
       .backgroundImageSize({
         width: '100%',
