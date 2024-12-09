@@ -33,6 +33,8 @@ function blueTextStyle() {
 struct LoginPage {
   @State account: string = '';
   @State password: string = '';
+  @State isShowProgress: boolean = false;
+  private timeOutId: number = -1;
   pathStack: NavPathStack = new NavPathStack();
 
   @Builder
@@ -51,8 +53,20 @@ struct LoginPage {
         message: $r('app.string.input_empty_tips')
       })
     } else {
-      this.pathStack.pushPathByName('MainPage', null);
+      this.isShowProgress = true;
+      if (this.timeOutId === -1) {
+        this.timeOutId = setTimeout(() => {
+          this.isShowProgress = false;
+          this.timeOutId = -1;
+          this.pathStack.pushPathByName('MainPage', null);
+        }, 2000);
+      }
     }
+  }
+
+  aboutToDisappear(): void {
+    clearTimeout(this.timeOutId);
+    this.timeOutId = -1;
   }
 
   build() {
@@ -124,6 +138,14 @@ struct LoginPage {
           .fontColor('#007DFF')
           .fontSize('16fp')
           .fontWeight(FontWeight.Medium)
+
+        if (this.isShowProgress) {
+          LoadingProgress()
+            .color('#182431')
+            .width('30vp')
+            .height('30vp')
+            .margin({ top: '20vp' })
+        }
 
         Blank()
         Text($r('app.string.other_login_method'))
