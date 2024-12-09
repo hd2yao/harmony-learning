@@ -311,6 +311,30 @@
     {
       "name": "Tab_Bar_Two",
       "value": "Mine"
+    },
+    {
+      "name": "Network_Available",
+      "value": "Network Available"
+    },
+    {
+      "name": "Network_Lost",
+      "value": "Network Lost"
+    },
+    {
+      "name": "Network_Unavailable",
+      "value": "Network Unavailable"
+    },
+    {
+      "name": "Login_Failed",
+      "value": "Failed to log in because the network is not connected."
+    },
+    {
+      "name": "Internet",
+      "value": "Internet Permission Request"
+    },
+    {
+      "name": "network_info",
+      "value": "NetWork Info Permission Request"
     }
   ]
 }

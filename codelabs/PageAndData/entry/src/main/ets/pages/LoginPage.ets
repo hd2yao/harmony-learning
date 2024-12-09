@@ -1,4 +1,5 @@
 import { promptAction } from '@kit.ArkUI';
+import ConnectionUtils from '../common/network/ConnectionUtils';
 
 @Extend(TextInput)
 function inputStyle() {
@@ -58,7 +59,14 @@ struct LoginPage {
         this.timeOutId = setTimeout(() => {
           this.isShowProgress = false;
           this.timeOutId = -1;
-          this.pathStack.pushPathByName('MainPage', null);
+
+          if (result) {
+            this.pathStack.pushPathByName('MainPage', null);
+          } else {
+            promptAction.showToast({
+              message: '无网络连接，无法登录'
+            });
+          }
         }, 2000);
       }
     }
@@ -131,8 +139,10 @@ struct LoginPage {
             top: '48vp',
             bottom: '12vp'
           })
-          .onClick(() => {
-            this.login(true);
+          .onClick(async () => {
+            await ConnectionUtils.isNetworkConnected().then((value) => {
+              this.login(value);
+            })
           })
         Text($r('app.string.register_account'))
           .fontColor('#007DFF')
