@@ -5,6 +5,8 @@
  */
 
 import { connection } from '@kit.NetworkKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { promptAction } from '@kit.ArkUI';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 
 const TAG: string = 'ConnectionUtils';
@@ -13,6 +15,8 @@ const TAG: string = 'ConnectionUtils';
  * ConnectionUtils 类提供了监听网络的能力
  */
 export class ConnectionUtils {
+  netConnection = connection.createNetConnection();
+
   /**
    * 检查监控网络是否已连接的方法
    */
@@ -49,6 +53,54 @@ export class ConnectionUtils {
     })
     return result;
   }
+
+  /**
+   * 订阅方法
+   */
+  openRegister() {
+    this.netConnection.register((error: BusinessError) => {
+      hilog.info(0x0000, TAG, JSON.stringify(error));
+    })
+  }
+
+  /**
+   * 监听网络状态方法
+   */
+  registerNetworkAvailableStatus() {
+    // 监听网络可用状态
+    this.netConnection.on('netAvailable', () => {
+      promptAction.showToast({
+        message: $r('app.string.Network_Available'),
+        duration: 2000
+      });
+    });
+
+    // 监听网络不可用状态
+    this.netConnection.on('netUnavailable', () => {
+      promptAction.showToast({
+        message: $r('app.string.Network_Unavailable'),
+        duration: 2000
+      });
+    });
+
+    // 监听网络丢失状态
+    this.netConnection.on('netLost', () => {
+      promptAction.showToast({
+        message: $r('app.string.Network_Lost'),
+        duration: 2000
+      });
+    });
+  }
+
+  /**
+   * 取消订阅方法
+   */
+  closeRegister() {
+    this.netConnection.unregister((error: BusinessError) => {
+      hilog.info(0x0000, TAG, JSON.stringify(error));
+    });
+  }
+
 }
 
 export default new ConnectionUtils();
