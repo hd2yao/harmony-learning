@@ -3,6 +3,7 @@ import ItemData from '../viewmodel/ItemData';
 import mainViewModel from '../viewmodel/MainViewModel';
 import ListInfo from '../viewmodel/ResponseData/ListInfo';
 import { HttpUtils } from '../common/network/HttpUtils';
+import { RCPUtils } from '../common/network/RCPUtils';
 
 @Preview
 @Component
@@ -16,14 +17,23 @@ export default struct Home {
 
   // 在 aboutToAppear 声明周期中，通过 postHttpRequest() 和 getHttpRequest() 方法分别获取到列表项中的文字以及图片数据源，和箭头图片的 uri
   async aboutToAppear(): Promise<void> {
-    let httpUtil: HttpUtils = new HttpUtils();
-    await httpUtil.postHttpRequest().then((value: Array<ListInfo>) => {
+    // let httpUtil: HttpUtils = new HttpUtils();
+    // await httpUtil.postHttpRequest().then((value: Array<ListInfo>) => {
+    //   this.httpGridItems = value;
+    // });
+    // await httpUtil.getHttpRequest(this.cacheDir).then((value:string) => {
+    //   this.pictureUri = value;
+    // });
+    // httpUtil.destroyHttpResponse();
+
+    let rcpUtil: RCPUtils = new RCPUtils();
+    await rcpUtil.postRCPRequest().then((value: Array<ListInfo>) => {
       this.httpGridItems = value;
     });
-    await httpUtil.getHttpRequest(this.cacheDir).then((value:string) => {
+    await rcpUtil.getRCPRequest(this.cacheDir).then((value: string) => {
       this.pictureUri = value;
     });
-    httpUtil.destroyHttpResponse();
+    rcpUtil.destroySession();
   }
 
   build() {
