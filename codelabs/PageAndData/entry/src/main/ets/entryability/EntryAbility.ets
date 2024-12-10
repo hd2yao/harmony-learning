@@ -2,9 +2,12 @@ import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import ConnectionUtils from '../common/network/ConnectionUtils';
+import PreferencesUtil from '../common/database/PreferencesUtil';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
+    // 获取用户首选项实例
+    PreferencesUtil.getFontPreferences(this.context);
     // 在 onCreate() 中开启订阅
     ConnectionUtils.openRegister();
     hilog.isLoggable(0x0000, 'testTag', hilog.LogLevel.INFO);
