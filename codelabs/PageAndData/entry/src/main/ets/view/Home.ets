@@ -1,9 +1,31 @@
+import { common } from '@kit.AbilityKit';
 import ItemData from '../viewmodel/ItemData';
 import mainViewModel from '../viewmodel/MainViewModel';
+import ListInfo from '../viewmodel/ResponseData/ListInfo';
+import { HttpUtils } from '../common/network/HttpUtils';
+
 
 @Preview
 @Component
 export default struct Home {
+  @State httpGridItems: Array<ListInfo> = [];
+  @State pictureUri: string = '';
+  private context = getContext(this) as common.UIAbilityContext;
+  private applicationContext = this.context.getApplicationContext();
+  private cacheDir = this.applicationContext.filesDir;
+
+  // 在 aboutToAppear 声明周期中，通过 postHttpRequest() 和 getHttpRequest() 方法分别获取到列表项中的文字以及图片数据源，和箭头图片的 uri
+  async aboutToAppear(): Promise<void> {
+    let httpUtil: HttpUtils = new HttpUtils();
+    await httpUtil.postHttpRequest().then((value: Array<ListInfo>) => {
+      this.httpGridItems = value;
+    });
+    await httpUtil.getHttpRequest(this.cacheDir).then((value:string) => {
+      this.pictureUri = value;
+    });
+    httpUtil.destroyHttpResponse();
+  }
+
   build() {
     Column() {
       Text('首页')
