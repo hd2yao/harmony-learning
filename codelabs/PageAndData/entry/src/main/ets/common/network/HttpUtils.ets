@@ -65,4 +65,8 @@ export class HttpUtils {
     });
     return responseData;
   }
+
+  destroyHttpResponse() {
+    this.httpRequest.destroy();
+  }
 }
