@@ -8,6 +8,7 @@ import { RCPUtils } from '../common/network/RCPUtils';
 @Preview
 @Component
 export default struct Home {
+  @StorageLink('fontSizeOffset') fontSizeOffset: number = 0;
   @State httpGridItems: Array<ListInfo> = [];
   @State pictureUri: string = '';
   private swiperController: SwiperController = new SwiperController();
@@ -45,7 +46,7 @@ export default struct Home {
           bottom: '12vp'
         })
         .fontWeight(700)
-        .fontSize('26fp')
+        .fontSize(26 + this.fontSizeOffset)
 
       Scroll() {
         Column() {
@@ -66,7 +67,7 @@ export default struct Home {
                     .width('40vp')
                     .height('40vp')
                   Text(item.title)
-                    .fontSize('12fp')
+                    .fontSize(12 + this.fontSizeOffset)
                     .margin({ top: '4vp' })
                 }
               }
@@ -91,7 +92,7 @@ export default struct Home {
           .borderRadius('16vp')
 
           Text($r('app.string.home_list'))
-            .fontSize('18fp')
+            .fontSize(18 + this.fontSizeOffset)
             .fontWeight(700)
             .width('100%')
             .margin({
@@ -115,14 +116,14 @@ export default struct Home {
                       .width('190vp')
                       .textOverflow({ overflow: TextOverflow.Ellipsis })
                       .maxLines(1)
-                      .fontSize('16fp')
+                      .fontSize(16 + this.fontSizeOffset)
                       .fontWeight(FontWeight.Medium)
                     Text(secondItem.theme)
                       .width('190vp')
                       .textOverflow({ overflow: TextOverflow.Ellipsis })
                       .maxLines(2)
                       .margin({ top: '4vp' })
-                      .fontSize('12fp')
+                      .fontSize(12 + this.fontSizeOffset)
                       .fontColor('#99182431')
                     Row() {
                       Image(this.pictureUri)
