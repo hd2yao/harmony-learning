@@ -1,3 +1,4 @@
+import PreferencesUtil from '../common/database/PreferencesUtil';
 import Home from "../view/Home";
 import Setting from "../view/Setting";
 
@@ -8,8 +9,14 @@ export function MainPageBuilder() {
 
 @Component
 export struct MainPage {
+  @StorageLink('fontSizeOffset') fontSizeOffset: number = 0;
   @State currentIndex: number = 0;
   private tabsController: TabsController = new TabsController();
+
+  // 在页面启动前，获取到存储在用户首选项中的字体偏移量，方便在页面启动前调整页面中的字体
+  aboutToAppear(): void {
+    this.fontSizeOffset = PreferencesUtil.getChangeFontSize();
+  }
 
   @Builder
   TabBuilder(title: ResourceStr, index: number, selectedImg: Resource) {
